@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= include('style'); ?>
+    <?!= include('script'); ?>
+  </head>
+  <body>
+    <h2>這是【<?= station_name ?>票點】回報器</h2>
+    <h1>【<span id="to_step_name"><?= to_step_name ?></span>】</h1>
+    <div id="to_step_description"><?= to_step_description ?></div>
+    <div>
+      <? if (has_next_button) { ?>
+        <button id="to_next" onclick="handleNext(this)" value="<?= to_step_id ?>">確認</button>
+      <? } ?>
+    </div>
+  </body>
+</html>

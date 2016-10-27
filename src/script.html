@@ -1,0 +1,34 @@
+<script>
+  function $ (s) {
+    return document.querySelector(s);
+  }
+
+  function handleNext(btn) {
+    $("#to_next").className = "processing";
+    $("#to_next").disabled = true;
+    $("#to_next").innerHTML = "更新中";
+
+    var to_step_id = $("#to_next").value;
+    google.script.run.withFailureHandler(onFailure)
+                     .withSuccessHandler(render)
+                     .process({"station_id": <?= station_id ?>, "to_step_id": to_step_id});
+  }
+
+  function onFailure(err) {
+    alert("onFailure: " + err + ", please contact the administer.");
+  }
+
+  function render(to_step_data) {
+    $("#to_next").value = to_step_data.step_id;
+    $("#to_step_name").innerHTML = to_step_data.step_name;
+    $("#to_step_description").innerHTML = to_step_data.step_description;
+
+    $("#to_next").className = "";
+    $("#to_next").removeAttribute("disabled");
+    $("#to_next").innerHTML = "確認";
+
+    if (!to_step_data.has_next_button) {
+      $("#to_next").style.display = "none";
+    }
+  }
+</script>
