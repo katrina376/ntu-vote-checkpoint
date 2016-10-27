@@ -7,20 +7,20 @@ var to_step_description;
 var has_next_button;
 
 function doGet(e) {
-  if (!e.parameter.s) {
+  station_id = (e.parameter.s) ? e.parameter.s : 1;
+
+  if (!(station_id in rangelist('station')) {
     return HtmlService.createHtmlOutputFromFile('404')
                       .setSandboxMode(HtmlService.SandboxMode.IFRAME);
   }
 
-  station_id = (e.parameter.s) ? e.parameter.s : 1;
   step_id = currentStep(station_id);
   to_step_id = step_id + 1;
 
   station_name = rangelist('station')[station_id]['name'].getValue();
   to_step_name = rangelist('step')[to_step_id]['name'].getValue();
   to_step_description = rangelist('step')[to_step_id]['description'].getValue();
-  has_next_button = (to_step_id < getStepsNum(rangelist('step'))) ? true : false;
-  url = ScriptApp.getService().getUrl();
+  has_next_button = (to_step_id < getLen(rangelist('step'))) ? true : false;
 
   return HtmlService.createTemplateFromFile('view')
                     .evaluate()
@@ -53,11 +53,11 @@ function process(d) {
     "step_id": new_step_id,
     "step_name": rangelist('step')[new_step_id]['name'].getValue(),
     "step_description": rangelist('step')[new_step_id]['description'].getValue(),
-    "has_next_button": (new_step_id < getStepsNum(rangelist('step'))) ? true : false
+    "has_next_button": (new_step_id < getLen(rangelist('step'))) ? true : false
   });
 }
 
-function getStepsNum(r) {
+function getLen(r) {
   var len = 0;
 
   for (var k in r) {
@@ -71,7 +71,7 @@ function currentStep(station_id) {
   var states = rangelist('state')[station_id];
   var current = 0;
 
-  for (var i = 1; i <= getStepsNum(rangelist('step')); ++i) {
+  for (var i = 1; i <= getLen(rangelist('step')); ++i) {
     if (!states[i].getValue()) {
       current = i - 1;
       break;
