@@ -1,4 +1,4 @@
-var DB_ID = '1qndJPjA3ZCDqaNbNovJrZWdV2wO8okSmIYWdfEChjEU';
+var DB_ID = '';
 var SHEET_NAMES = {
   station : "station",
   step    : "step",
